@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2024-05-27T08:18:47Z"
+  finalizers:
+  - kubernetes.io/pv-protection
+  name: pv-airbyte-db
+  resourceVersion: "14104103"
+  uid: e1c388d9-5be7-467f-b6e8-777ec3a700c5
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /var/data/airbyte/db
+    type: ""
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nabvmkw03
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: sc-airbyte
+  volumeMode: Filesystem
+status:
+  lastPhaseTransitionTime: "2024-05-27T08:18:47Z"
+  phase: Available
+
+--- 
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2024-05-27T08:18:47Z"
+  finalizers:
+  - kubernetes.io/pv-protection
+  name: pv-airbyte-minio
+  resourceVersion: "14104099"
+  uid: 9722b654-1e20-4a9a-908e-62ff21155ce3
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /var/data/airbyte/minio
+    type: ""
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nabvmkw03
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: sc-airbyte
+  volumeMode: Filesystem
+status:
+  lastPhaseTransitionTime: "2024-05-27T08:18:47Z"
+  phase: Available

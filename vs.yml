@@ -1,0 +1,46 @@
+# airbyte-airbyte-webapp-svc
+
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: gateway-airbyte
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - test.dynamic1001.com
+      port:
+        name: http
+        number: 80
+        protocol: HTTP
+    - hosts:
+        - airbyte.dynamic1001.com
+      port:
+        name: https-dynamic
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: ssl-dynamic1001-com
+        mode: SIMPLE
+--- 
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vs-airbyte
+  namespace: istio-system
+spec:
+  gateways:
+    - gateway-airbyte
+  hosts:
+    - airbyte.dynamic1001.com
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: airbyte-airbyte-webapp-svc.default.svc.cluster.local
+            port:
+              number: 80
